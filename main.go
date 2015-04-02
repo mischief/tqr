@@ -1,13 +1,14 @@
 package main
 
 import (
-	"os"
+	"bufio"
 	"fmt"
-	"strings"
 	"log"
+	"os"
+	"strings"
 
-	"github.com/qpliu/qrencode-go/qrencode"
 	"github.com/mgutz/ansi"
+	"github.com/qpliu/qrencode-go/qrencode"
 )
 
 func main() {
@@ -15,6 +16,11 @@ func main() {
 
 	if len(os.Args) > 1 {
 		d = strings.Join(os.Args[1:], " ")
+	} else {
+		sc := bufio.NewScanner(os.Stdin)
+		for sc.Scan() {
+			d += sc.Text()
+		}
 	}
 
 	qr, err := qrencode.Encode(d, qrencode.ECLevelL)
@@ -46,4 +52,3 @@ func main() {
 
 	fmt.Println(reset)
 }
-
